@@ -1,0 +1,106 @@
+type Ticker {
+  pair: String
+}
+
+type CurrencyObject {
+  XRP: Float
+  LTC: Float
+  BTC: Float
+  ALGO: Float
+  ETH: Float
+  ADA: Float
+  BCH: Float
+  DGB: Float
+  FIL: Float
+  XLM: Float
+  DOGE: Float
+}
+
+type ExchangeObject {
+  BINANCE: Boolean
+  BINANCEUS: Boolean
+  COINBASE: Boolean
+  KUCOIN: Boolean
+  KRAKEN: Boolean
+  BITSTAMP: Boolean
+  BITSO: Boolean
+  FTX: Boolean
+  HUOBIPRO: Boolean
+  CRYPTO: Boolean
+  GATEIO: Boolean
+  OKEX: Boolean
+  BITFINEX: Boolean
+  POLONIEX: Boolean
+}
+
+type PriceObject {
+  price: Float!
+  base: String
+  ticker: String
+  asset: String
+  timestamp: Float
+  volume: Float
+}
+
+scalar AllPrices
+
+type AllVolume {
+  price: Float!
+  base: String
+  ticker: String
+  asset: String
+  timestamp: Float
+  volume: Float
+}
+
+type pairs {
+  exchange: String
+  active: Boolean
+  pairs: [String]
+}
+
+scalar exchange
+
+type AllExchanges {
+  activeExchanges: exchange
+  exchanges: exchange
+  activeExchangePairs: [pairs]
+}
+
+type Query {
+  getAllExchanges: AllExchanges
+  getAllPrices: AllPrices
+  getAllVolumes: [AllVolume]
+  getPrice(asset: String, base: String): PriceObject
+}
+
+type AuthPayload {
+  token: String
+  refreshToken: Int
+}
+
+type User {
+  username: String
+  key: Int
+}
+
+type Mutation {
+  resetTimeSeries: Boolean!
+  forgetPassword(userId: Int!, newPassword: String!): Boolean!
+  updateUser(username: String!, newUsername: String!): [Int!]!
+  deleteUser(username: String!): Int!
+  register(username: String!, email: String!, password: String!, isAdmin: Boolean): User!
+  login(email: String!, password: String!): AuthPayload!
+  createUser(username: String!): User!
+  refreshTokens(token: String!, refreshToken: String!): AuthPayload!
+}
+
+type Subscription {
+  userAdded: User!
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
