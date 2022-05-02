@@ -1,0 +1,20 @@
+version: '3.8'
+
+x-common-variables: &common-variables
+  DB_NAME: ${DB_NAME}
+  DB_USER: ${DB_USER_KEY}
+  DB_KEY: ${DB_USER_SECRET}
+  DB_PORT: ${DB_PORT}
+
+services:
+  api:
+      container_name: ${PROJECT_NAME}_api
+      build:
+        dockerfile: Dockerfile
+        context: "./src"
+      restart: always
+      ports:
+        - ${API_PORT}:${API_PORT}
+      environment:
+        <<: *common-variables
+        COINKEY: ${COINKEY}
