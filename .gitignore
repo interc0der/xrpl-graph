@@ -105,3 +105,7 @@ dist
 
 # TernJS port file
 .tern-port
+
+docker/scylla/minio
+docker/scylla/scylla_data
+docker/scylla/scylla_manager_db_data

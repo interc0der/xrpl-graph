@@ -1,20 +1,43 @@
 version: '3.8'
 
-x-common-variables: &common-variables
-  DB_NAME: ${DB_NAME}
-  DB_USER: ${DB_USER_KEY}
-  DB_KEY: ${DB_USER_SECRET}
-  DB_PORT: ${DB_PORT}
-
 services:
-  api:
-      container_name: ${PROJECT_NAME}_api
+  clio:
+      container_name: ${PROJECT_NAME}_clio
       build:
         dockerfile: Dockerfile
-        context: "./src"
+        context: "./docker/clio"
+      restart: always
+      volumes:
+        - ./docker/clio/config:/config
+
+  xrpl:
+      container_name: ${PROJECT_NAME}_xrpl
+      build:
+        dockerfile: Dockerfile
+        context: "./docker/xrpl"
       restart: always
       ports:
-        - ${API_PORT}:${API_PORT}
-      environment:
-        <<: *common-variables
-        COINKEY: ${COINKEY}
+        - 5005:5005
+        - 6005:6005
+        - 51234:51234
+        - 51235:51235
+
+  cassandra:
+      container_name: ${PROJECT_NAME}_cassandra
+      build:
+        dockerfile: Dockerfile
+        context: "./docker/cassandra"
+      restart: always
+      volumes:
+        - ./docker/clio/config:/config
+
+  scylla:
+      container_name: ${PROJECT_NAME}_scylla
+      build:
+        dockerfile: Dockerfile
+        context: "./docker/scylla"
+      restart: always
+      volumes:
+        - ./docker/clio/config:/config
+
+
