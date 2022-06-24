@@ -2,42 +2,44 @@ version: '3.8'
 
 services:
   clio:
-      container_name: ${PROJECT_NAME}_clio
-      build:
-        dockerfile: Dockerfile
-        context: "./docker/clio"
-      restart: always
-      volumes:
-        - ./docker/clio/config:/config
+    container_name: ${PROJECT_NAME}_clio
+    build:
+      dockerfile: Dockerfile
+      context: './docker/clio'
+    restart: always
 
   xrpl:
-      container_name: ${PROJECT_NAME}_xrpl
-      build:
-        dockerfile: Dockerfile
-        context: "./docker/xrpl"
-      restart: always
-      ports:
-        - 5005:5005
-        - 6005:6005
-        - 51234:51234
-        - 51235:51235
+    container_name: ${PROJECT_NAME}_xrpl
+    build:
+      dockerfile: Dockerfile
+      context: './docker/xrpl'
+    restart: always
+    ports:
+      - 5005:5005
+      - 6005:6005
+      - 51234:51234
+      - 51235:51235
+    volumes:
+      - ./docker/xrpl/db:/var/lib/rippled/db
 
   cassandra:
-      container_name: ${PROJECT_NAME}_cassandra
-      build:
-        dockerfile: Dockerfile
-        context: "./docker/cassandra"
-      restart: always
-      volumes:
-        - ./docker/clio/config:/config
+    image: 'cassandra:latest'
+    container_name: ${PROJECT_NAME}_cassandra
+    restart: always
+    ports:
+      - 9042:9042
+    volumes:
+      - ./docker/cassandra/data:/var/lib/cassandra/data
+      - ./docker/cassandra/commit:/var/lib/cassandra/commitlog
+      - ./docker/cassandra/hints:/var/lib/cassandra/hints
+      - ./docker/cassandra/cache:/var/lib/cassandra/saved_caches
+      - ./docker/cassandra/logs:/var/log/cassandra
 
   scylla:
-      container_name: ${PROJECT_NAME}_scylla
-      build:
-        dockerfile: Dockerfile
-        context: "./docker/scylla"
-      restart: always
-      volumes:
-        - ./docker/clio/config:/config
-
-
+    image: scylladb/scylla:latest
+    ports:
+      - 9043:9042
+    volumes:
+      - ./docker/scylla/data:/var/lib/scylla/data
+      - ./docker/scylla/commit:/var/lib/scylla/commitlog
+    command: --smp 1 --memory 1G

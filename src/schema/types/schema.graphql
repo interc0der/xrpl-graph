@@ -1,0 +1,15 @@
+type Ping = Boolean
+
+type Query {
+  getPing: Ping
+}
+
+type Mutation {
+  test: Boolean!
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}

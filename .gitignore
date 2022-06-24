@@ -1,4 +1,4 @@
-#Ignore haters
+#ignore haters
 haters
 
 # Logs
@@ -106,6 +106,11 @@ dist
 # TernJS port file
 .tern-port
 
-docker/scylla/minio
-docker/scylla/scylla_data
-docker/scylla/scylla_manager_db_data
+docker/scylla/commit
+docker/scylla/data
+
+docker/cassandra/cache
+docker/cassandra/commit
+docker/cassandra/data
+docker/cassandra/hints
+docker/cassandra/logs
