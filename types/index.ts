@@ -11,5 +11,3 @@ export interface tempFilterExchange {
   active?: boolean;
   pairs?: string[] | undefined[];
 }
-
-declare module 'datastar';

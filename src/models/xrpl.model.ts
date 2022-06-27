@@ -1,17 +1,17 @@
 /* import Datastar from 'datastar'; */
-import { datastar } from 'datastar';
+import Datastar from 'datastar';
 
-/* const datastar = new Datastar({
+const datastar = new Datastar({
   config: {
     credentials: {
       username: 'cassandra',
       password: 'cassandra',
     },
     keyspace: 'a_fancy_keyspace',
-    contactPoints: ['127.0.0.1', 'host2', 'host3'],
+    contactPoints: ['127.0.0.1'],
   },
 }).connect();
- */
+
 const cql = datastar.schema.cql;
 const schema = datastar.schema
   .object({
